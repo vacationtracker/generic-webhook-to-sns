@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Generic Webhook to SNS
+  
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 29
+    Runtime: nodejs12.x
+
+Resources:
+  WebhookTopic:
+    Type: AWS::SNS::Topic
+
+  WebhookApi:
+    Type: AWS::Serverless::HttpApi
+
+  WebhookFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: build/webhook
+      Handler: lambda.handler
+      Environment:
+        Variables:
+          WEBHOOK_TOPIC: !Ref WebhookTopic
+      Policies:
+        - SNSPublishMessagePolicy:
+            TopicName: !GetAtt WebhookTopic.TopicName
+      Events:
+        WebhookPost:
+          Type: HttpApi
+          Properties:
+            Path: /
+            Method: POST
+            ApiId: !Ref WebhookApi
+        WebhookGet:
+          Type: HttpApi
+          Properties:
+            Path: /
+            Method: GET
+            ApiId: !Ref WebhookApi
+
+Outputs:
+  WebhookApiUrl:
+    Description: "A webhook URL"
+    Value: !Sub "https://${WebhookApi}.execute-api.${AWS::Region}.amazonaws.com"
+
+  WebhookApiId:
+    Description: "An ID of the API Gateway HTTP API"
+    Value: !Ref WebhookApi
+
+  WebhookTopicArn:
+    Description: "A webhook event SNS topic Arn"
+    Value: !Ref WebhookTopic
+
+  WebhookTopicName:
+    Description: "A name of the webhook SNS topic"
+    Value: !GetAtt WebhookTopic.TopicName
