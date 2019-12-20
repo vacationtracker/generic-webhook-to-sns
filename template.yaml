@@ -1,12 +1,24 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Generic Webhook to SNS
-  
-# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+
 Globals:
   Function:
     Timeout: 29
     Runtime: nodejs12.x
+
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: generic-webhook-to-sns
+    Description: "A serverless application that receives a webhook event via POST or GET HTTP method, sends the raw event data to the SNS topic, and replies with the 200 OK response to the webhook sender"
+    Author: Slobodan
+    SpdxLicenseId: MIT
+    LicenseUrl: LICENSE
+    ReadmeUrl: README.md
+    Labels: ['webhook','sns']
+    HomePageUrl: https://github.com/vacationtracker/generic-webhook-to-sns
+    SemanticVersion: 1.0.0
+    SourceCodeUrl: https://github.com/vacationtracker/generic-webhook-to-sns
 
 Resources:
   WebhookTopic:
