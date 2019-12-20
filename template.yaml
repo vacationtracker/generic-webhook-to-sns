@@ -6,6 +6,7 @@ Globals:
   Function:
     Timeout: 29
     Runtime: nodejs12.x
+    Tracing: Active
 
 Metadata:
   AWS::ServerlessRepo::Application:
@@ -26,6 +27,8 @@ Resources:
 
   WebhookApi:
     Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: $default
 
   WebhookFunction:
     Type: AWS::Serverless::Function
