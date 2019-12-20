@@ -20,9 +20,20 @@ You can deploy this app from Serverless Application Repository (SAR) or manually
 
 ### Install from SAR
 
-TBA
+Go to the [Generic webhook to SNS](https://serverlessrepo.aws.amazon.com/applications/arn:aws:serverlessrepo:us-east-1:721177882564:applications~generic-webhook-to-sns) App on the AWS Serverless App repo, click Deploy and follow the wizard to configure the app.
 
-### Install manually using 
+Or use with AWS SAM by adding the following resource:
+
+```yaml
+GenericWebhookToSns:
+  Type: AWS::Serverless::Application
+  Properties:
+    Location:
+      ApplicationId: arn:aws:serverlessrepo:us-east-1:721177882564:applications/generic-webhook-to-sns
+      SemanticVersion: 1.0.0
+```
+
+### Install manually
 
 The SAM CLI is an extension of the AWS CLI that adds functionality for building and testing Lambda applications. It uses Docker to run your functions in an Amazon Linux environment that matches Lambda. It can also emulate your application's build environment and API.
 
@@ -64,7 +75,7 @@ Resources:
     Type: AWS::Serverless::Application
     Properties:
       Location:
-        ApplicationId: arn:aws:serverlessrepo:eu-central-1:123456789012:applications/generic-webhook-to-sns
+        ApplicationId: arn:aws:serverlessrepo:us-east-1:721177882564:applications/generic-webhook-to-sns
         SemanticVersion: 1.0.0
 
   WebhookFunction:
